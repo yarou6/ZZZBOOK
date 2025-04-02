@@ -1,0 +1,66 @@
+﻿<Window x:Class="ZZZBOOK.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZZZBOOK"
+        xmlns:mvvm="clr-namespace:ZZZBOOK.VM"
+        DataContext="{DynamicResource vm}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="1000">
+    <Window.Resources>
+        <mvvm:MainMVVMBook x:Key="vm"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="35*"/>
+
+        </Grid.ColumnDefinitions>
+
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="10*"/>
+
+        </Grid.RowDefinitions>
+
+        <StackPanel  Grid.ColumnSpan="3" Grid.Row="1" Orientation="Horizontal">
+            
+            <Button Content="Добавить" Command="{Binding AddBook}" Width="100" Height="75" Margin="250,0,50,0"/>
+            <Button Content="Редактировать" Command="{Binding EditBook}" Width="100" Height="75"  Margin="50,0,50,0"/>
+            <Button Content="Удалить" Command="{Binding RemoveBook, Source={StaticResource vm}}" Width="100" Height="75" Margin="50,0,50,0"/>
+            <Button Content="Обновить список" Command="{Binding UpdateBook}" Width="100" Height="75" Margin="50,0,50,0"/>
+            
+        </StackPanel>
+        
+
+        <ListView Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding Books}" SelectedItem="{Binding SelectedBook}">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Лист Автор" Click="ListAuthor"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Название книги" DisplayMemberBinding="{Binding Title}"/>
+                    <GridViewColumn Header="Год публикации" DisplayMemberBinding="{Binding YearPublished}"/>
+                    <GridViewColumn Header="Жанр" DisplayMemberBinding="{Binding Genre}"/>
+                    <GridViewColumn Header="Доступность книги" DisplayMemberBinding="{Binding IsAvailable}"/>
+                    <GridViewColumn Header="Имя Автора" DisplayMemberBinding="{Binding Author.FirstName}"/>
+                    <GridViewColumn Header="Фамилия Автора" DisplayMemberBinding="{Binding Author.LastName}"/>
+                    <GridViewColumn Header="Отчество Автора" DisplayMemberBinding="{Binding Author.Patronymic}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
+            <TextBlock Text="Поиск:"/>
+            <TextBox Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" Width="300"/>
+        </StackPanel>
+        
+    </Grid>
+</Window>
